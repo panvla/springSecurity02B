@@ -1,5 +1,6 @@
 package com.vladimirpandurov.securecapita02B.domain;
 
+import com.vladimirpandurov.securecapita02B.dto.UserDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -9,11 +10,14 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+import static com.vladimirpandurov.securecapita02B.dtoMapper.UserDTOMapper.fromUser;
+
 @RequiredArgsConstructor
 public class UserPrincipal implements UserDetails {
 
     private final User user;
     private final Role role;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -48,5 +52,9 @@ public class UserPrincipal implements UserDetails {
     @Override
     public boolean isEnabled() {
         return this.user.isEnabled();
+    }
+
+    public UserDTO getUser() {
+        return fromUser(this.user, role);
     }
 }
